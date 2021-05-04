@@ -17,7 +17,6 @@ namespace NorthwindConsole
         {
             logger.Info("Program started");
 
-            Console.WriteLine("Hello World!");
             try
             {
                 string choice;
