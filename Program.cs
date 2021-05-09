@@ -142,6 +142,40 @@ namespace NorthwindConsole
                     else if (choice == "6")
                     {
                         // add product
+                        Console.WriteLine("Select which Category the product falls under");
+                        var db = new NWConsole_96_TCJContext();
+                        var category = GetCategories(db);
+                        if (category != null)
+                        {
+                            var product = new Products();
+                            product.Category = category;
+                            product.CategoryId = category.CategoryId;
+                            Console.WriteLine("Enter name of product");
+                            product.ProductName = Console.ReadLine();
+                            Console.WriteLine("Enter Quantity per unit");
+                            product.QuantityPerUnit = Console.ReadLine();
+                            Console.WriteLine("Enter unit price");
+                            product.UnitPrice = Decimal.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter Units in stock");
+                            product.UnitsInStock = short.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter units on order");
+                            product.UnitsOnOrder = short.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter reorder level");
+                            product.ReorderLevel = short.Parse(Console.ReadLine());
+                            Console.WriteLine("Discontinued? (Y/N)");
+                            string dis = Console.ReadLine();
+                            if (dis.ToUpper() == "Y")
+                            {
+                                product.Discontinued = true;
+                            }
+                            else
+                            {
+                                product.Discontinued = false;
+                            }
+
+                            db.AddProduct(product);
+                            logger.Info("Product added - {name}", product.ProductName);
+                        }
                     }
                     else if (choice == "7")
                     {
