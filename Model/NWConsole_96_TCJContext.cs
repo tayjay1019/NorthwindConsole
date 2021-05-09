@@ -306,6 +306,30 @@ namespace NorthwindConsole.Model
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
+        public void AddCategory(Categories category)
+        {
+            this.Categories.Add(category);
+            this.SaveChanges();
+        }
+
+        public void AddProduct(Products product)
+        {
+            this.Products.Add(product);
+            this.SaveChanges();
+        }
+
+        public void DeleteCategory(Categories category)
+        {
+            this.Categories.Remove(category);
+            this.SaveChanges();
+        }
+
+        public void DeleteProduct(Products product)
+        {
+            this.Products.Remove(product);
+            this.SaveChanges();
+        }
+
         public void EditCategory(Categories UpdatedCategory)
         {
             Categories category = this.Categories.Find(UpdatedCategory.CategoryId);
