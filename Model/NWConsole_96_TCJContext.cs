@@ -305,5 +305,12 @@ namespace NorthwindConsole.Model
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public void EditCategory(Categories UpdatedCategory)
+        {
+            Categories category = this.Categories.Find(UpdatedCategory.CategoryId);
+            category.CategoryName = UpdatedCategory.CategoryName;
+            this.SaveChanges();
+        }
     }
 }

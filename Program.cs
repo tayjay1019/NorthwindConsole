@@ -121,6 +121,44 @@ namespace NorthwindConsole
                             }
                         }
                     }
+                    else if (choice == "5")
+                    {
+                        //Edit Catagory
+                        Console.WriteLine("Choose the Catagory to edit");
+                        var db = new NWConsole_96_TCJContext();
+                        var category = GetCategories(db);
+                        if (category != null)
+                        {
+                            //input category
+                            Categories UpdatedCategory = InputCategory(db);
+                            if (UpdatedCategory != null)
+                            {
+                                UpdatedCategory.CategoryId = category.CategoryId;
+                                db.EditCategory(UpdatedCategory);
+                                logger.Info($"Category (id: {category.CategoryId}) updated");
+                            }
+                        }
+                    }
+                    else if (choice == "6")
+                    {
+                        
+                    }
+                    else if (choice == "7")
+                    {
+                        
+                    }
+                    else if (choice == "8")
+                    {
+                        
+                    }
+                    else if (choice == "9")
+                    {
+                        
+                    }
+                    else if (choice == "10")
+                    {
+                        
+                    }
                     Console.WriteLine();
 
                 } while (choice.ToLower() != "q");
@@ -131,6 +169,62 @@ namespace NorthwindConsole
             }
 
             logger.Info("Program ended");
+        }
+
+        public static Categories GetCategories(NWConsole_96_TCJContext db)
+        {
+            // display all categories
+            var categories = db.Categories.OrderBy(c => c.CategoryId);
+            foreach (Categories c in categories)
+            {
+                Console.WriteLine($"{c.CategoryId}: {c.CategoryName}");
+            }
+            if (int.TryParse(Console.ReadLine(), out int CategoryId))
+            {
+                Categories category = db.Categories.FirstOrDefault(c => c.CategoryId == CategoryId);
+                if (category != null)
+                {
+                    return category;
+                }
+            }
+            logger.Error("Invalid Category ID");
+            return null;
+        }
+
+        public static Categories InputCategory(NWConsole_96_TCJContext db)
+        {
+            Categories category = new Categories();
+            Console.WriteLine("Enter the Category name");
+            category.CategoryName = Console.ReadLine();
+
+            ValidationContext context = new ValidationContext(category, null, null);
+            List<ValidationResult> results = new List<ValidationResult>();
+
+            var isValid = Validator.TryValidateObject(category, context, results, true);
+            if (isValid)
+            {
+                // check for unique name
+                if (db.Categories.Any(c => c.CategoryName == category.CategoryName))
+                {
+                    // generate validation error
+                    isValid = false;
+                    results.Add(new ValidationResult("Category name exists", new string[] { "Name" }));
+                }
+                else
+                {
+                    logger.Info("Validation passed");
+                }
+            }
+            if (!isValid)
+            {
+                foreach (var result in results)
+                {
+                    logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");
+                }
+                return null;
+            }
+
+            return category;
         }
     }
 }
