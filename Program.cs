@@ -180,6 +180,20 @@ namespace NorthwindConsole
                     else if (choice == "7")
                     {
                         // edit product
+                        Console.WriteLine("Choose product to edit:");
+                        var db = new NWConsole_96_TCJContext();
+                        var product = GetProducts(db);
+                        if (product !=null)
+                        {
+                            // input product
+                            Products UpdatedProduct = InputProducts(db);
+                            if (UpdatedProduct != null)
+                            {
+                                UpdatedProduct.ProductId = product.ProductId;
+                                db.EditProduct(UpdatedProduct);
+                                logger.Info($"Product (ID: {product.ProductId}) updated");
+                            }
+                        }
                     }
                     else if (choice == "8")
                     {
@@ -259,6 +273,61 @@ namespace NorthwindConsole
             }
 
             return category;
+        }
+
+        public static Products GetProducts(NWConsole_96_TCJContext db)
+        {
+            // display all products
+            var products = db.Products.OrderBy(p =>p.ProductId);
+            foreach (Products p in products)
+            {
+                Console.WriteLine($"{p.ProductId}: {p.ProductName}");
+            }
+            if (int.TryParse(Console.ReadLine(), out int ProductId))
+            {
+                Products product = db.Products.FirstOrDefault(p => p.ProductId == ProductId);
+                if (product != null)
+                {
+                    return product;
+                }
+            }
+            logger.Error("Invalid Product ID");
+            return null;
+        }
+
+        public static Products InputProducts(NWConsole_96_TCJContext db)
+        {
+            Products product = new Products();
+            Console.WriteLine("Enter product name");
+            product.ProductName = Console.ReadLine();
+
+            ValidationContext context = new ValidationContext(product, null, null);
+            List<ValidationResult> results = new List<ValidationResult>();
+
+            var isValid = Validator.TryValidateObject(product, context, results, true);
+            if (isValid)
+            {
+                // check for unique name
+                if (db.Products.Any(p => p.ProductName == product.ProductName))
+                {
+                    // generate validation error
+                    isValid = false;
+                    results.Add(new ValidationResult("Product name Exists", new string[] { "Name" }));
+                }
+                else{
+                    logger.Info("Validation passed");
+                }
+            }
+            if (!isValid)
+            {
+                foreach (var result in results)
+                {
+                    logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");
+                }
+                return null;
+            }
+
+            return product;
         }
     }
 }

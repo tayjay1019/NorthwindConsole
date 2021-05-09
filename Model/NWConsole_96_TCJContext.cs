@@ -336,5 +336,12 @@ namespace NorthwindConsole.Model
             category.CategoryName = UpdatedCategory.CategoryName;
             this.SaveChanges();
         }
+
+        public void EditProduct(Products UpdatedProduct)
+        {
+            Products product = this.Products.Find(UpdatedProduct.ProductId);
+            product.ProductName = UpdatedProduct.ProductName;
+            this.SaveChanges();
+        }
     }
 }
