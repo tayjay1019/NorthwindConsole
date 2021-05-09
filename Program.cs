@@ -141,23 +141,23 @@ namespace NorthwindConsole
                     }
                     else if (choice == "6")
                     {
-                        
+                        // add product
                     }
                     else if (choice == "7")
                     {
-                        
+                        // edit product
                     }
                     else if (choice == "8")
                     {
-                        
+                        // display products
                     }
                     else if (choice == "9")
                     {
-                        
+                        // delete category
                     }
                     else if (choice == "10")
                     {
-                        
+                        // dlete product
                     }
                     Console.WriteLine();
 
