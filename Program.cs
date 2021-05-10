@@ -235,6 +235,23 @@ namespace NorthwindConsole
                     else if (choice == "9")
                     {
                         // delete category
+                        Console.WriteLine("Select category to delete");
+                        var db = new NWConsole_96_TCJContext();
+                        var category = GetCategories(db);
+                        Console.WriteLine("Detete Category and all its products? (Y/N)");
+                        string pick = Console.ReadLine();
+                        if (pick.ToUpper() == "Y")
+                        {
+                            foreach (Products p in category.Products)
+                            {
+                                 // delete product
+                            db.DeleteProduct(p);
+                            logger.Info($"Product (id: {p.ProductId}) deleted");
+                            }
+
+                            db.DeleteCategory(category);
+                            logger.Info($"Category (id: {category.CategoryId}) deleted");
+                        }
                     }
                     else if (choice == "10")
                     {
