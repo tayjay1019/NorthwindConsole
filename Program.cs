@@ -52,39 +52,49 @@ namespace NorthwindConsole
                     }
                     else if (choice == "2")
                     {
-                        Categories category = new Categories();
-                        Console.WriteLine("Enter Category Name:");
-                        category.CategoryName = Console.ReadLine();
-                        Console.WriteLine("Enter the Category Description:");
-                        category.Description = Console.ReadLine();
-                        
-                        ValidationContext context = new ValidationContext(category, null, null);
-                        List<ValidationResult> results = new List<ValidationResult>();
+                        var db = new NWConsole_96_TCJContext();
+                        Categories category = InputCategory(db);
+                        if (category != null)
+                        {
+                            db.AddCategory(category);
+                            logger.Info("Category added - {name}", category.CategoryName);
+                        }
 
-                        var isValid = Validator.TryValidateObject(category, context, results, true);
-                        if (isValid)
-                        {
-                            var db = new NWConsole_96_TCJContext();
-                            // check for unique name
-                            if (db.Categories.Any(c => c.CategoryName == category.CategoryName))
-                            {
-                                // generate validation error
-                                isValid = false;
-                                results.Add(new ValidationResult("Name exists", new string[] { "CategoryName" }));
-                            }
-                            else
-                            {
-                                logger.Info("Validation passed");
-                                db.AddCategory(category);
-                            }
-                        }
-                        if (!isValid)
-                        {
-                            foreach (var result in results)
-                            {
-                                logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");
-                            }
-                        }
+
+
+
+                        // Console.WriteLine("Enter Category Name:");
+                        // category.CategoryName = Console.ReadLine();
+                        // Console.WriteLine("Enter the Category Description:");
+                        // category.Description = Console.ReadLine();
+                        
+                        // ValidationContext context = new ValidationContext(category, null, null);
+                        // List<ValidationResult> results = new List<ValidationResult>();
+
+                        // var isValid = Validator.TryValidateObject(category, context, results, true);
+                        // if (isValid)
+                        // {
+                        //     var db = new NWConsole_96_TCJContext();
+                        //     // check for unique name
+                        //     if (db.Categories.Any(c => c.CategoryName == category.CategoryName))
+                        //     {
+                        //         // generate validation error
+                        //         isValid = false;
+                        //         results.Add(new ValidationResult("Name exists", new string[] { "CategoryName" }));
+                        //     }
+                        //     else
+                        //     {
+                        //         logger.Info("Validation passed");
+                        //         db.AddCategory(category);
+                        //     }
+                        // }
+                        // if (!isValid)
+                        // {
+                        //     foreach (var result in results)
+                        //     {
+                        //         logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");
+                        //     }
+                        // }
                     }
                     else if (choice == "3")
                     {
@@ -304,6 +314,8 @@ namespace NorthwindConsole
             Categories category = new Categories();
             Console.WriteLine("Enter the Category name");
             category.CategoryName = Console.ReadLine();
+            Console.WriteLine("Enter Description");
+            category.Description = Console.ReadLine();
 
             ValidationContext context = new ValidationContext(category, null, null);
             List<ValidationResult> results = new List<ValidationResult>();
