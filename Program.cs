@@ -24,8 +24,8 @@ namespace NorthwindConsole
                 {
                     Console.WriteLine("1) Display Categories");
                     Console.WriteLine("2) Add Category");
-                    Console.WriteLine("3) Display Category and related products");
-                    Console.WriteLine("4) Display all Categories and their related products");
+                    Console.WriteLine("3) Display Category and related active products");
+                    Console.WriteLine("4) Display all Categories and their related active products");
                     Console.WriteLine("5) Edit Category");
                     Console.WriteLine("6) Add Product");
                     Console.WriteLine("7) Edit Product");
@@ -38,6 +38,7 @@ namespace NorthwindConsole
                     logger.Info($"Option {choice} selected");
                     if (choice == "1")
                     {
+                        // display categories
                         var db = new NWConsole_96_TCJContext();
                         var query = db.Categories.OrderBy(p => p.CategoryName);
 
