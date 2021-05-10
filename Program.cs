@@ -239,6 +239,16 @@ namespace NorthwindConsole
                     else if (choice == "10")
                     {
                         // dlete product
+                        Console.WriteLine("Select Product to delete");
+                        var db = new NWConsole_96_TCJContext();
+                        var product = GetProducts(db);
+                        if (product != null)
+                        {
+                            // delete product
+                            db.DeleteProduct(product);
+                            logger.Info($"Product (id: {product.ProductId}) deleted");
+                        }
+
                     }
                     Console.WriteLine();
 
