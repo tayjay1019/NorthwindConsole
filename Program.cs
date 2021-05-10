@@ -208,7 +208,7 @@ namespace NorthwindConsole
                     else if (choice == "8")
                     {
                         // display products
-                        Console.Write("Choose products to display");
+                        Console.WriteLine("Choose products to display");
                         Console.WriteLine("1) All Products");
                         Console.WriteLine("2) Discontinued Produts");
                         Console.WriteLine("3) Active Products");
