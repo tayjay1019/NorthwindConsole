@@ -198,6 +198,39 @@ namespace NorthwindConsole
                     else if (choice == "8")
                     {
                         // display products
+                        Console.Write("Choose products to display");
+                        Console.WriteLine("1) All Products");
+                        Console.WriteLine("2) Discontinued Produts");
+                        Console.WriteLine("3) Active Products");
+                        string pick = Console.ReadLine();
+                        var db = new NWConsole_96_TCJContext();
+                        if (pick == "1")
+                        {
+                            var query = db.Products.OrderBy(p => p.ProductName);
+                            Console.WriteLine($"{query.Count()} records returned");
+                            foreach (var item in query)
+                            {
+                                Console.WriteLine($"{item.ProductName}");
+                            }
+                        }
+                        else if (pick == "2")
+                        {
+                            var query = db.Products.Where(p => p.Discontinued).OrderBy(p => p.ProductName);
+                            Console.WriteLine($"{query.Count()} records returned");
+                            foreach (var item in query)
+                            {
+                                Console.WriteLine($"{item.ProductName}");
+                            }
+                        }
+                        else if (pick == "3")
+                        {
+                            var query = db.Products.Where(p => !p.Discontinued).OrderBy(p => p.ProductName);
+                            Console.WriteLine($"{query.Count()} records returned");
+                            foreach (var item in query)
+                            {
+                                Console.WriteLine($"{item.ProductName}");
+                            }
+                        }
                     }
                     else if (choice == "9")
                     {
