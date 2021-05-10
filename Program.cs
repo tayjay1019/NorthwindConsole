@@ -212,6 +212,7 @@ namespace NorthwindConsole
                         Console.WriteLine("1) All Products");
                         Console.WriteLine("2) Discontinued Produts");
                         Console.WriteLine("3) Active Products");
+                        Console.WriteLine("4) Search for a specific product");
                         string pick = Console.ReadLine();
                         var db = new NWConsole_96_TCJContext();
                         if (pick == "1")
@@ -239,6 +240,31 @@ namespace NorthwindConsole
                             foreach (var item in query)
                             {
                                 Console.WriteLine($"{item.ProductName}");
+                            }
+                        }
+                        else if (pick == "4")
+                        {
+                            Console.WriteLine("Select product to see all details");
+                            var product = GetProducts(db);
+                            if (product != null)
+                            {
+                                Console.WriteLine($"ID: {product.ProductId}");
+                                Console.WriteLine($"Name: {product.ProductName}");
+                                Console.WriteLine($"Category: {product.Category}");
+                                Console.WriteLine($"Quantity per unit: {product.QuantityPerUnit}");
+                                Console.WriteLine($"Unit price: {product.UnitPrice}");
+                                Console.WriteLine($"Units in stock: {product.UnitsInStock}");
+                                Console.WriteLine($"Units on order: {product.UnitsOnOrder}");
+                                Console.WriteLine($"Reorder level: {product.ReorderLevel}");
+                                Console.Write("Discontinued: ");
+                                if (product.Discontinued == true)
+                                {
+                                    Console.WriteLine("Yes");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No");
+                                }
                             }
                         }
                     }
