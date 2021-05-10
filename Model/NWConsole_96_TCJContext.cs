@@ -32,6 +32,43 @@ namespace NorthwindConsole.Model
         public virtual DbSet<Suppliers> Suppliers { get; set; }
         public virtual DbSet<Territories> Territories { get; set; }
 
+        public void AddCategory(Categories category)
+        {
+            this.Categories.Add(category);
+            this.SaveChanges();
+        }
+
+        public void AddProduct(Products product)
+        {
+            this.Products.Add(product);
+            this.SaveChanges();
+        }
+
+        public void DeleteCategory(Categories category)
+        {
+            this.Categories.Remove(category);
+            this.SaveChanges();
+        }
+
+        public void DeleteProduct(Products product)
+        {
+            this.Products.Remove(product);
+            this.SaveChanges();
+        }
+
+        public void EditCategory(Categories UpdatedCategory)
+        {
+            Categories category = this.Categories.Find(UpdatedCategory.CategoryId);
+            category.CategoryName = UpdatedCategory.CategoryName;
+            this.SaveChanges();
+        }
+
+        public void EditProduct(Products UpdatedProduct)
+        {
+            Products product = this.Products.Find(UpdatedProduct.ProductId);
+            product.ProductName = UpdatedProduct.ProductName;
+            this.SaveChanges();
+        }
          protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -306,43 +343,7 @@ namespace NorthwindConsole.Model
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-        public void AddCategory(Categories category)
-        {
-            this.Categories.Add(category);
-            this.SaveChanges();
-        }
-
-        public void AddProduct(Products product)
-        {
-            this.Products.Add(product);
-            this.SaveChanges();
-        }
-
-        public void DeleteCategory(Categories category)
-        {
-            this.Categories.Remove(category);
-            this.SaveChanges();
-        }
-
-        public void DeleteProduct(Products product)
-        {
-            this.Products.Remove(product);
-            this.SaveChanges();
-        }
-
-        public void EditCategory(Categories UpdatedCategory)
-        {
-            Categories category = this.Categories.Find(UpdatedCategory.CategoryId);
-            category.CategoryName = UpdatedCategory.CategoryName;
-            this.SaveChanges();
-        }
-
-        public void EditProduct(Products UpdatedProduct)
-        {
-            Products product = this.Products.Find(UpdatedProduct.ProductId);
-            product.ProductName = UpdatedProduct.ProductName;
-            this.SaveChanges();
-        }
+        
 
         
     }
